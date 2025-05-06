@@ -1,0 +1,17 @@
+.div-container > * { = chaque élèment se trouvant dans la div
+    padding: 3px;
+	border: 1px solid #1D6154; 
+	border-radius: 50%;
+
+}
+
+const words = ["spray", "elite", "exuberant", "destruction", "present"]; = SUR LES TABLEAUX on peut filtrer
+
+const result = words.filter((word) => word.length > 6); = mettre un fonction callback va nous retourner pour chaque mot qui a une longueur de plus de 6 caractère.
+Le retour de result on aura (exuberant, destruction, présent)
+
+console.log(result);
+// Expected output: Array ["exuberant", "destruction", "present"]
+
+
+FUNCTION GETWORKS qui va afficher tout les projets

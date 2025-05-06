@@ -1,0 +1,12 @@
+function getworks (filter)
+if (filter) se déclenche filter les id pour filtrer tout les travaux que j'ai fais
+
+exemple Panier avec balles bleu, rouge et vert = ID 
+3 BOUTONS pour selectionner les balles (bleu, rouge et vert) = boutons (objets, restaurants)
+ 
+couleurs = ID(1 2 3) information envoie au panier 
+Panier = function qui récupère les travaux getworks filtre les travaux en fonction de la couleur 
+balles = images
+boutons = objets
+
+explique ce code  javaspirt ligne par ligne pour un  débutant qui ne sait pas coder

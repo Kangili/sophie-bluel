@@ -1,0 +1,36 @@
+- async : Cela signifie que la fonction va faire une tâche asynchrone (par exemple, récupérer des données depuis Internet). Elle peut prendre du temps, donc on doit attendre que ça se termine avant de continuer.
+- document.querySelector(".gallery") : C'est une méthode pour trouver un élément HTML sur la page. Ici, on cherche un élément qui a la classe .gallery, c'est probablement une section où les œuvres seront affichées.
+- .innerHTML = '' : Cela vide le contenu de cet élément. Avant de charger de nouvelles œuvres, on vide l'ancienne galerie.
+
+const url : On crée une variable url qui contient l'adresse d'une API. Une API est comme un service sur Internet qui nous donne des données (ici, des œuvres).
+
+- await fetch(url) : fetch() est une fonction qui envoie une requête à l'API pour récupérer des données. Le mot-clé await nous dit d'attendre la réponse avant de continuer le programme.
+- response.ok : C'est une façon de vérifier si la réponse est correcte (si le serveur a bien répondu avec un code 200). Si ce n'est pas le cas, on crée une erreur.
+
+- response.json() : Cela convertit la réponse de l'API en un format que nous pouvons manipuler (JSON, qui est une manière de structurer les données).
+
+- filter : Le paramètre filter est optionnel. Si une catégorie est donnée, on l'utilise pour filtrer les œuvres.
+- json.filter() : C'est une méthode pour parcourir toutes les œuvres et garder celles qui ont la même categoryId que le filter.
+
+- for : C'est une boucle qui parcourt toutes les œuvres filtrées.
+- setFigure(filtered[i]) : Cela appelle une autre fonction (setFigure) pour afficher chaque œuvre dans la galerie.
+
+- else : Si aucun filter n'est donné, on affiche toutes les œuvres sans filtre.
+- catch (error) : Si quelque chose se passe mal pendant la récupération des œuvres, cette partie gère l'erreur et l'affiche dans la console.
+- getWorks() : Cela appelle la fonction pour charger les œuvres au démarrage.
+
+- setFigure(data) : Cette fonction reçoit une œuvre (sous forme de données) et crée un élément <figure> pour l'afficher.
+- document.createElement("figure") : Crée un élément HTML <figure> pour contenir l'image et le titre de l'œuvre.
+- figure.innerHTML : Cela insère le HTML dans l'élément <figure>. On ajoute une image (<img>) avec l'URL de l'image et un titre (<figcaption>).
+- .append(figure) : Ajoute l'élément <figure> dans la section avec la classe .gallery sur la page.
+
+- getCategories() : Fonction pour récupérer les catégories d'œuvres.
+- Le fonctionnement est similaire à getWorks(), mais cette fois on récupère des catégories plutôt que des œuvres.
+- setFilter(json[i]) : Pour chaque catégorie, on appelle une autre fonction (voir ci-dessous) pour afficher un bouton ou une option de filtre.
+
+- setFilter(data) : Fonction qui crée un bouton ou une option pour chaque catégorie.
+- div.className = data.id : Utilise l'ID de la catégorie pour donner un nom à la classe du bouton.
+- div.addEventListener : Lorsque l'utilisateur clique sur un bouton, cette ligne appelle getWorks() pour filtrer les œuvres par cette catégorie.
+- document.querySelector(".div-container").append(div) : Ajoute ce bouton dans la section des filtres sur la page.
+
+Cette ligne ajoute un événement au bouton "Tous". Quand l'utilisateur clique dessus, toutes les œuvres sont affichées sans filtre.

@@ -1,0 +1,11 @@
+Rajouter dans le CSS pour la couleur noir:
+a{
+	color: black;
+}
+a:visited{
+	color: black;
+}
+
+BODY{(ligne 37)
+background-color 
+}
