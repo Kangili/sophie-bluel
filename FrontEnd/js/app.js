@@ -199,8 +199,8 @@ function toggleModal() {
 //Add photo input
 
 document.querySelector('#file').style.display = "none";
-document.getElementById('file').addEventListener('change', e => {
-    const file = e.target.files[0];
+document.getElementById('file').addEventListener("change", function(event){
+const file = event.target.files[0];
   
     if (!file || !['image/jpeg', 'image/png'].includes(file.type) || file.size > 4e6) {
       alert("Image invalide (jpg/png, max 4 Mo)");
@@ -220,3 +220,40 @@ document.getElementById('file').addEventListener('change', e => {
     }
   });
   
+  // Handle picture submit
+
+  
+
+  const title = document
+  .querySelector("#title")
+      .addEventListener("change",(e) => {
+        console.log (e)
+        //hasTitle.innerHTML =
+        console.log (title);
+        console.log (title.value);
+      })
+
+  document
+  .getElementById('picture-form')
+  .addEventListener('submit', handleSubmit);
+
+  async function handleSubmit(event) {
+      event.preventDefault();  
+      const hasImage = document.querySelector("#photo-container").firstChild;
+
+
+      console.log (title);
+         //let response = await fetch(loginApi, {
+          //method: "POST",
+          //headers: {
+             // "Content-Type": "application/json",
+          //},
+          //body: JSON.stringify(user),
+      //});
+  
+      //let result = await response.json();
+      //const token = result.token;
+          //sessionStorage.setItem("authToken", token);
+          //window.location.href= "./index.html"
+      
+  } 
