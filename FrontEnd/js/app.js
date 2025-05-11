@@ -222,16 +222,22 @@ const file = event.target.files[0];
   
   // Handle picture submit
 
-  
 
-  const title = document
-  .querySelector("#title")
-      .addEventListener("change",(e) => {
-        console.log (e)
-        //hasTitle.innerHTML =
-        console.log (title);
-        console.log (title.value);
-      })
+const titleInput = document.getElementById('title');
+let titleValue = '';
+
+let selectValue = "objet" ;
+
+document.getElementById("category"). addEventListener ('change', function (){
+  selectValue = this.value;
+  console.log('Catégorie sélectionné', selectValue);
+});
+
+
+titleInput.addEventListener('input', function() {
+  titleValue = titleInput.value;
+  console.log("Titre actuel:",titleValue); // Affiche la valeur actuelle pendant la saisie
+});
 
   document
   .getElementById('picture-form')
@@ -240,9 +246,12 @@ const file = event.target.files[0];
   async function handleSubmit(event) {
       event.preventDefault();  
       const hasImage = document.querySelector("#photo-container").firstChild;
-
-
-      console.log (title);
+      
+      if (hasImage && titleValue){
+        console.log ("hasImage and titleValue is true") ;
+      } else {
+        console.log ("hasImage and titleValue is false") ;
+      }
          //let response = await fetch(loginApi, {
           //method: "POST",
           //headers: {
