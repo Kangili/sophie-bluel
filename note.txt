@@ -1,0 +1,30 @@
+ajouter un eventk=lister sur la classe modal (ajouter une photo) qui est dans le html
+
+``
+
+pour recuper les photos aller dans le dossier téléchargement (portofilio du 20 AVRIL)dans le backedn databse.sqlite copier coller dans mon dossier ou je fais le projet
+
+button pour fermer= openmodal
+
+ligne 104 modal.style.display = 'flex'; mettre null à la place pour voir
+
+
+
+explication simple et court et précis de chaque ligne pour un débutant js
+
+// modal
+modal, modal wrapper, file section, fa-image
+
+
+je n'ai pas : image container (position relative, display inline block), image container img (display block), image container.overlay icon (posistion absolute,  top 60px, right 6px, font-size 16px, cursor pointer,background color black, color white, padding 4px,  border raduis 10%)
+modal wrapper h3 (
+
+@Hortense29
+
+echo "# sophie-bluel" >> README.md
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Kangili/sophie-bluel.git
+git push -u origin main

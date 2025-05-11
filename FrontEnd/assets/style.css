@@ -391,7 +391,7 @@ hr{
 	display: none;
 } */
 
-.file-section{
+.file-section {
 	background-color: #E8F1F6;
 	display: flex;
 	flex-direction: column;
@@ -399,7 +399,7 @@ hr{
 	padding: 10px;
 }
 
-.file-section label{
+.file-section label {
 	padding: 10px 20px;
 	margin-top: 10px;
 	border: 1px solid #1D6154; 
@@ -423,3 +423,12 @@ hr{
 	display: flex;
 	justify-content: center;
 }
+
+#photo-container{
+	width: 80%;
+}
+
+#photo-container img{
+	width: 100%;
+}
+

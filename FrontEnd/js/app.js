@@ -209,11 +209,12 @@ document.getElementById('file').addEventListener('change', e => {
       reader.onload = e => {
         const img = document.createElement('img');
         img.src = e.target.result;
-        img.style.maxWidth = '200px';
+        img.alt ="Uploaded Photo";
   
         const container = document.getElementById('photo-container');
         container.innerHTML = ''; // Vide l'ancien contenu s'il existe
         container.appendChild(img);
+        document.querySelectorAll('.picture-loaded').forEach((e => e.style.display = "none"));
       };
       reader.readAsDataURL(file);
     }

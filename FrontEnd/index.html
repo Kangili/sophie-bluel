@@ -55,18 +55,17 @@
         </div>
       
        <h3>Ajout Photo</h3>
-       <div class= "form add-photo-form">
+    <div class= "form add-photo-form">
       <form action="#" method="post">
         <div class="file-section">
-          <div id="photo-container"></div>
-          <div>
-          <div><i class="fa-regular fa-image"></i></div>
-         <label for ="file">+ Ajouter photo</label>
-         <input type="file" id="file" name = "file" accept="image/png, image/jpg"/>
-         <p>jpg, png : 4mo max</p>
+          <div id ="photo-container"></div>
+          <div><i class="fa-regular fa-image picture-loaded"></i></div>
+          <label class ="picture-loaded" for ="file">+ Ajouter photo</label>
+          <input type="file" id="file" name = "file" accept="image/png, image/jpg"/>
+          <p class="picture-loaded"> jpg, png : 4mo max</p>
         </div>
         <label for="title">Titre</label>
-        <input type="text" name="title" id="title" />
+        <input type="text" name= "title" id= "title" />
         <label for="category">Catégorie</label>
         <select id ="category" name="category" size ="1">
           <option value ="objet">Objets</option>
