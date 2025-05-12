@@ -151,7 +151,7 @@ document.querySelectorAll(".js-modal").forEach((a) => {
 async function deleteWork(event) {
     const id = event.target.getAttribute("data-id");
     const deleteApi = "http://localhost:5678/api/works/";
-    const token = sessionStorage // voir avec (Maxime)
+    const token = sessionStorage.authToken;
 
     try {
         let response = await fetch(`${deleteApi}${id}`, {
@@ -244,25 +244,55 @@ titleInput.addEventListener('input', function() {
   .addEventListener('submit', handleSubmit);
 
   async function handleSubmit(event) {
-      event.preventDefault();  
-      const hasImage = document.querySelector("#photo-container").firstChild;
-      
-      if (hasImage && titleValue){
-        console.log ("hasImage and titleValue is true") ;
-      } else {
-        console.log ("hasImage and titleValue is false") ;
-      }
-         //let response = await fetch(loginApi, {
-          //method: "POST",
-          //headers: {
-             // "Content-Type": "application/json",
-          //},
-          //body: JSON.stringify(user),
-      //});
-  
-      //let result = await response.json();
-      //const token = result.token;
-          //sessionStorage.setItem("authToken", token);
-          //window.location.href= "./index.html"
-      
-  } 
+  event.preventDefault();
+
+  const fileInput = document.querySelector('#image'); // input type="file"
+  const imageFile = fileInput.files[0];
+  const titleValue = document.querySelector('#title').value;
+  const selectValue = document.querySelector('#category').value;
+
+  // Vérification des champs
+  if (!imageFile || !titleValue || !selectValue) {
+    const errorBox = document.createElement("div");
+    errorBox.className = "error-login";
+    errorBox.innerHTML = "Veuillez remplir tous les champs";
+    document.querySelector("form").prepend(errorBox);
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("image", imageFile);
+  formData.append("title", titleValue);
+  formData.append("category", selectValue);
+
+  const token = sessionStorage.getItem("authToken");
+
+  try {
+    const response = await fetch('http://localhost:5678/api/works', {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`
+        // PAS de Content-Type ici avec FormData
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      const errorBox = document.createElement("div");
+      errorBox.className = "error-login";
+      errorBox.innerHTML = "Une erreur est survenue lors de l'envoi.";
+      document.querySelector("form").prepend(errorBox);
+    } else {
+      const result = await response.json();
+      console.log("Image envoyée avec succès :", result);
+      window.location.href = "./index.html";
+    }
+
+  } catch (error) {
+    console.error("Erreur réseau :", error);
+    const errorBox = document.createElement("div");
+    errorBox.className = "error-login";
+    errorBox.innerHTML = "Erreur de connexion au serveur.";
+    document.querySelector("form").prepend(errorBox);
+  }
+}
