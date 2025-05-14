@@ -220,7 +220,8 @@ const file = event.target.files[0];
     }
   });
   
-  // Handle picture submit
+
+// Handle picture submit
 
 
 const titleInput = document.getElementById('title');
@@ -243,22 +244,26 @@ titleInput.addEventListener('input', function() {
   .getElementById('picture-form')
   .addEventListener('submit', handleSubmit);
 
-  async function handleSubmit(event) {
+async function handleSubmit(event) {
   event.preventDefault();
 
-  const fileInput = document.querySelector('#image'); // input type="file"
-  const imageFile = fileInput.files[0];
+  // Déplace la récupération de titleValue avant l'utilisation dans la condition
   const titleValue = document.querySelector('#title').value;
-  const selectValue = document.querySelector('#category').value;
 
-  // Vérification des champs
-  if (!imageFile || !titleValue || !selectValue) {
-    const errorBox = document.createElement("div");
-    errorBox.className = "error-login";
-    errorBox.innerHTML = "Veuillez remplir tous les champs";
-    document.querySelector("form").prepend(errorBox);
-    return;
+  // Vérifie si l'image et le titre sont définis
+  const hasImage = document.querySelector("#photo-container").firstChild;
+  console.log(hasImage);
+
+  const image = document.querySelector('photo-container');
+  if (hasImage && titleValue) {
+    console.log("hasImage and titleValue is true");
+  } else {
+    console.log("hasImage and titleValue is false");
   }
+
+  const fileInput = document.querySelector('#file'); // <== bon sélecteur ici
+  const imageFile = fileInput.files[0];
+  const selectValue = document.querySelector('#category').value;
 
   const formData = new FormData();
   formData.append("image", imageFile);
@@ -267,32 +272,23 @@ titleInput.addEventListener('input', function() {
 
   const token = sessionStorage.getItem("authToken");
 
-  try {
-    const response = await fetch('http://localhost:5678/api/works', {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`
-        // PAS de Content-Type ici avec FormData
-      },
-      body: formData
-    });
+  let response = await fetch('http://localhost:5678/api/works', {
+  method: "POST",
+  headers: {
+    "Accept": "application/json",
+    "Authorization": `Bearer ${token}` // Clé correctement mise entre guillemets
+  },
+  body: formData
+});
 
-    if (!response.ok) {
-      const errorBox = document.createElement("div");
-      errorBox.className = "error-login";
-      errorBox.innerHTML = "Une erreur est survenue lors de l'envoi.";
-      document.querySelector("form").prepend(errorBox);
-    } else {
-      const result = await response.json();
-      console.log("Image envoyée avec succès :", result);
-      window.location.href = "./index.html";
-    }
-
-  } catch (error) {
-    console.error("Erreur réseau :", error);
+  if (!response.ok) {
     const errorBox = document.createElement("div");
     errorBox.className = "error-login";
-    errorBox.innerHTML = "Erreur de connexion au serveur.";
+    errorBox.innerHTML = "Il ya une erreur";
     document.querySelector("form").prepend(errorBox);
+  } else {
+    const result = await response.json();
+    console.log("Image envoyée avec succès :", result);
+    window.location.href = "./index.html";
   }
 }
