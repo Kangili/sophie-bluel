@@ -223,11 +223,10 @@ const file = event.target.files[0];
 
 // Handle picture submit
 
+const titleInput = document.getElementById("title");
+let titleValue = "";
 
-const titleInput = document.getElementById('title');
-let titleValue = '';
-
-let selectValue = "objet" ;
+let selectValue = "1" ;
 
 document.getElementById("category"). addEventListener ('change', function (){
   selectValue = this.value;
@@ -235,13 +234,13 @@ document.getElementById("category"). addEventListener ('change', function (){
 });
 
 
-titleInput.addEventListener('input', function() {
+titleInput.addEventListener("input", function() {
   titleValue = titleInput.value;
   console.log("Titre actuel:",titleValue); // Affiche la valeur actuelle pendant la saisie
 });
 
   document
-  .getElementById('picture-form')
+  .getElementById("picture-form")
   .addEventListener('submit', handleSubmit);
 
 async function handleSubmit(event) {
@@ -254,7 +253,12 @@ async function handleSubmit(event) {
   const hasImage = document.querySelector("#photo-container").firstChild;
   console.log(hasImage);
 
-  const image = document.querySelector('photo-container');
+  const image = document.querySelector("#photo-container");
+  const reader = new FileReader () ;
+  reader.readAsDataURL (hasImage);
+  console.log ("Le reader", reader);
+  
+  console.log (image) ;
   if (hasImage && titleValue) {
     console.log("hasImage and titleValue is true");
   } else {
@@ -269,14 +273,14 @@ async function handleSubmit(event) {
   formData.append("image", imageFile);
   formData.append("title", titleValue);
   formData.append("category", selectValue);
-
   const token = sessionStorage.getItem("authToken");
 
-  let response = await fetch('http://localhost:5678/api/works', {
+
+  let response = await fetch("http://localhost:5678/api/works", {
   method: "POST",
   headers: {
     "Accept": "application/json",
-    "Authorization": `Bearer ${token}` // Clé correctement mise entre guillemets
+    "Authorization": `Bearer ${token}` 
   },
   body: formData
 });
