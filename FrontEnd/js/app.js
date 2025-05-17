@@ -161,7 +161,7 @@ async function deleteWork(event) {
             }
         });
 
-        if (!response.ok) {
+        if (response.statuts == 401|| response.status == 500) {
             const errorBox = document.createElement('div');
             errorBox.className = "error login";
             errorBox.innerHTML = "Une erreur est survenue lors de la suppression.";
@@ -197,102 +197,100 @@ function toggleModal() {
 }
 
 //Add photo input
+let img = document.createElement('img');
+let uploadedFile = null; // Stocke le fichier sélectionné
 
 document.querySelector('#file').style.display = "none";
-document.getElementById('file').addEventListener("change", function(event){
-const file = event.target.files[0];
-  
-    if (!file || !['image/jpeg', 'image/png'].includes(file.type) || file.size > 4e6) {
-      alert("Image invalide (jpg/png, max 4 Mo)");
-    } else {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        img.alt ="Uploaded Photo";
-  
-        const container = document.getElementById('photo-container');
-        container.innerHTML = ''; // Vide l'ancien contenu s'il existe
-        container.appendChild(img);
-        document.querySelectorAll('.picture-loaded').forEach((e => e.style.display = "none"));
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-  
 
-// Handle picture submit
+// Gérer le changement de fichier
+document.getElementById('file').addEventListener("change", function(event) {
+  const file = event.target.files[0];
+  uploadedFile = file;
 
+  if (!file || !['image/jpeg', 'image/png'].includes(file.type) || file.size > 4e6) {
+    alert("Image invalide (jpg/png, max 4 Mo)");
+  } else {
+    const reader = new FileReader();
+    reader.onload = e => {
+      img.src = e.target.result;
+      img.alt = "Uploaded Photo";
+
+      const container = document.getElementById('photo-container');
+      container.innerHTML = ''; // Vide l'ancien contenu s'il existe
+      container.appendChild(img);
+      document.querySelectorAll('.picture-loaded').forEach(e => e.style.display = "none");
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// Suivi du titre
 const titleInput = document.getElementById("title");
 let titleValue = "";
 
-let selectValue = "1" ;
-
-document.getElementById("category"). addEventListener ('change', function (){
-  selectValue = this.value;
-  console.log('Catégorie sélectionné', selectValue);
-});
-
-
 titleInput.addEventListener("input", function() {
   titleValue = titleInput.value;
-  console.log("Titre actuel:",titleValue); // Affiche la valeur actuelle pendant la saisie
+  console.log("Titre actuel:", titleValue);
 });
 
-  document
-  .getElementById("picture-form")
-  .addEventListener('submit', handleSubmit);
+// Suivi de la catégorie
+let selectValue = "1";
 
-async function handleSubmit(event) {
+document.getElementById("category").addEventListener('change', function() {
+  selectValue = this.value;
+});
+
+// Soumission du formulaire
+const addPictureForm = document.getElementById("picture-form");
+
+addPictureForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  // Déplace la récupération de titleValue avant l'utilisation dans la condition
-  const titleValue = document.querySelector('#title').value;
-
-  // Vérifie si l'image et le titre sont définis
   const hasImage = document.querySelector("#photo-container").firstChild;
-  console.log(hasImage);
 
-  const image = document.querySelector("#photo-container");
-  const reader = new FileReader () ;
-  reader.readAsDataURL (hasImage);
-  console.log ("Le reader", reader);
-  
-  console.log (image) ;
-  if (hasImage && titleValue) {
-    console.log("hasImage and titleValue is true");
-  } else {
-    console.log("hasImage and titleValue is false");
+  if (!hasImage || !titleValue || !uploadedFile) {
+    console.log("Formulaire incomplet : image, titre ou fichier manquant.");
+    alert("Veuillez sélectionner une image et remplir le titre.");
+    return;
   }
-
-  const fileInput = document.querySelector('#file'); // <== bon sélecteur ici
-  const imageFile = fileInput.files[0];
-  const selectValue = document.querySelector('#category').value;
 
   const formData = new FormData();
-  formData.append("image", imageFile);
+  formData.append("image", uploadedFile); // Important : c'est le fichier réel
   formData.append("title", titleValue);
   formData.append("category", selectValue);
+
   const token = sessionStorage.getItem("authToken");
 
+  try {
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`
+        // Pas besoin de Content-Type ici, il est géré automatiquement pour FormData
+      },
+      body: formData
+    });
 
-  let response = await fetch("http://localhost:5678/api/works", {
-  method: "POST",
-  headers: {
-    "Accept": "application/json",
-    "Authorization": `Bearer ${token}` 
-  },
-  body: formData
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Erreur lors de l'envoi :", errorText);
+      const errorBox = document.createElement("div");
+      errorBox.className = "error-login";
+      errorBox.innerHTML = "Erreur lors de l'envoi. Code : " + response.status;
+      document.querySelector("form").prepend(errorBox);
+    } else {
+      const result = await response.json();
+      console.log("Image envoyée avec succès :", result);
+      alert("Image ajoutée avec succès !");
+    }
+
+  } catch (error) {
+    console.error("Erreur réseau :", error);
+    alert("Une erreur réseau est survenue.");
+  }
 });
 
-  if (!response.ok) {
-    const errorBox = document.createElement("div");
-    errorBox.className = "error-login";
-    errorBox.innerHTML = "Il ya une erreur";
-    document.querySelector("form").prepend(errorBox);
-  } else {
-    const result = await response.json();
-    console.log("Image envoyée avec succès :", result);
-    window.location.href = "./index.html";
-  }
-}
+
+  
+
+ 
