@@ -282,6 +282,7 @@ addPictureForm.addEventListener("submit", async (event) => {
       const result = await response.json();
       console.log("Image envoyée avec succès :", result);
       alert("Image ajoutée avec succès !");
+      getWorks();
     }
 
   } catch (error) {
