@@ -70,9 +70,22 @@ getCategories();
 function setFilter(data) {
     const div = document.createElement("div");
     div.className = data.id;
+    div.addEventListener("click",()=> getWorks(data.id));
+    div.addEventListener("click",(event)=> toggleFilter(event));
+    document
+    .querySelector('.tous')
+    .addEventListener("click",(event)=> toggleFilter(event));
     div.innerHTML = `${data.name}`;
-    div.addEventListener("click", () => getWorks(data.id));
+
     document.querySelector(".div-container").append(div);
+}
+
+function toggleFilter(event) {
+  const container = document.querySelector(".div-container");
+  Array.from(container.children).forEach((child)=>
+    child.classList.remove("active-filter")
+);
+  event.target.classList.add("active-filter");
 }
 
 document.querySelector(".tous").addEventListener("click", () => getWorks());

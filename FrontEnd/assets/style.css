@@ -158,6 +158,11 @@ li:hover {
 	color: white;
 }
 
+.active-filter{
+	background-color: #1D6154;
+	color: white;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
