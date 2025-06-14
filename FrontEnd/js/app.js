@@ -105,6 +105,21 @@ function displayAdminMode() {
 }
 displayAdminMode();
 
+// Pour se déconnecter 
+function logout() { 
+    sessionStorage.removeItem("authToken");
+    location.reload(); // ou window.location.href = "login.html";
+}
+
+const loginButton = document.querySelector(".login");
+if (sessionStorage.getItem("authToken")) {
+    loginButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        logout();
+    });
+}
+
+
 // Modale
 let modal = null;
 const focusableSelector = 'button, a, input, textarea';

@@ -19,8 +19,12 @@ async function handleSubmit(event) {
     });
 
     let result = await response.json();
-    const token = result.token;
+       if (!response.ok) {
+      alert ("Identifiant incorrect")
+    } else {
+      const token = result.token;
         sessionStorage.setItem("authToken", token);
         window.location.href= "./index.html"
+    } 
     
 } 
