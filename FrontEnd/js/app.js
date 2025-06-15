@@ -319,7 +319,30 @@ addPictureForm.addEventListener("submit", async (event) => {
   }
 });
 
+async function populateCategoriesSelect() {
+  try {
+    const response = await fetch("http://localhost:5678/api/categories");
+    if (!response.ok) throw new Error("Erreur chargement catégories");
+    const categories = await response.json();
+    
+    const select = document.getElementById("category");
+    select.innerHTML = ''; // vide les options existantes
+    
+    categories.forEach(cat => {
+      const option = document.createElement("option");
+      option.value = cat.id;
+      option.textContent = cat.name;
+      select.appendChild(option);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-  
+// Appel au chargement DOM
+document.addEventListener("DOMContentLoaded", () => {
+  populateCategoriesSelect();
+});
+
 
  
